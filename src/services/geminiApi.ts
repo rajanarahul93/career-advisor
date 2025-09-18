@@ -137,6 +137,15 @@ export async function getCareerMentorResponse(
   }
 }
 
+function parseJsonFromMarkdown(markdownString: string): any {
+  const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
+  const match = markdownString.match(jsonRegex);
+
+  // If match is found, parse the captured group, otherwise parse the whole string
+  const stringToParse = match ? match[1] : markdownString;
+
+  return JSON.parse(stringToParse.trim());
+}
 // Roadmap Generator API
 export async function generateCareerRoadmap(career: string): Promise<any> {
   const prompt = `Create a detailed career roadmap for "${career}" in India. Return a JSON object with:
@@ -160,7 +169,7 @@ export async function generateCareerRoadmap(career: string): Promise<any> {
 
   try {
     const response = await callGeminiWithRetry(prompt);
-    return JSON.parse(response);
+    return parseJsonFromMarkdown(response);
   } catch (error) {
     console.error("Roadmap API error:", error);
     return getFallbackRoadmap(career);
