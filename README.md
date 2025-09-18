@@ -1,5 +1,5 @@
 # Career Advisor
-## Personalized Career & Skills Advisor 🚀
+## Personalized Career & Skills Advisor
 
 <div align="center">
 
